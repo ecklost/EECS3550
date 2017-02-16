@@ -7,9 +7,11 @@ using namespace std;
 
 int main()
 {
-// Retrieves the file line by line and stores each line into a vector of strings.
+// Retrieves the file line by line and stores each line into a vector of strings.
+
 	string singleLine = "";				// Get line of text from the input file
-	ifstream read("input.txt");
+	ifstream read("input.txt");
+
 	if (read.is_open())
 	{
 		while (!read.eof() && getline(inputFile, singleLine))
