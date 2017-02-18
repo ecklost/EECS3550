@@ -7,30 +7,39 @@ using namespace std;
 
 int main()
 {
-// Retrieves the file line by line and stores each line into a vector of strings.
+	vector<string> inputFileParameter;							// Vector that contains the input strings
+	
+	readInputFile(inputFileParameter);							// Calls the method that reads from the input file
+	
+	// Wait for user to press 'Enter' to exit program
+	system("pause");
+	
+	return 0;
+}
 
-	string singleLine = "";				// Get line of text from the input file
-	ifstream read("input.txt");
+void readInputFile(vector<string>& inputFileParameter)
+{
+	string singleLine = "";								// Stores each line in the input file as a string
+	ifstream inputFile("input.txt");
 
-	if (read.is_open())
+	cout << "\nThe following is what the input file contains: \n\n";
+
+	if (inputFile.is_open())
 	{
-		while (!read.eof() && getline(inputFile, singleLine))
+		while (!inputFile.eof() && getline(inputFile, singleLine))	// While not at the end of the file, read file line by line
 		{
-			if (singleLine.compare("</end>") == 0)
-				break;					// End of file
+			std::cout << singleLine << std::endl;		// Outputs every single line from the input File
+
+			if (singleLine.compare("halt") == 0)		// Checks if the file contains the following string: halt, if encountered, end the file
+				break;
 			else
 			{
-				inputHolder.push_back(line);
-				singleLine = "";
+				inputFileParameter.push_back(singleLine);
+				singleLine = "";						// Empty line so it's ready for the next one
 			}
 		}
-		read.close();
+		inputFile.close();
 	}
-	else cout << "Cannot open file: Check file structure.";
-
-	// Wait for user to press 'Enter' to exit program
-	char WaitChar;
-	cout << "\nProccessing finished. Press 'Enter' to exit the program: \n\n";
-	cin.get(WaitChar);
-	return 0;
+	else 
+		cout << "Error: File is unable to open.  Check the location and the name of the file for possible errors.";
 }
