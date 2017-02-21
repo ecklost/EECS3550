@@ -18,6 +18,11 @@ int main()
 	stack.pop();
 	std::cout << stack.empty();
 	std::cout << "Test";
-    return 0;
+
+	// Wait for user to press 'Enter' to exit program
+	char WaitChar;
+	cout << "\nProccessing finished. Press 'Enter' to exit the program: \n\n";
+	cin.get(WaitChar);
+	return 0;
 }
 

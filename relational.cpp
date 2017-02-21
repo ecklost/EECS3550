@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "relational.h"
-// #include "stack.h"
+#include "stack_manipulation.h"
 
 relational::relational()
 {

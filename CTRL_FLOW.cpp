@@ -3,9 +3,11 @@
 #include "stdafx.h"
 #include "CTRL_FLOW.h"
 #include "stack_manipulation.h"
+#include "SymbolTable.h"
 
 CTRL_FLOW::CTRL_FLOW()
 {
+	char labelChar;
 }
 
 void CTRL_FLOW::getLabel()
@@ -21,6 +23,22 @@ void CTRL_FLOW::getLabel()
 void CTRL_FLOW::goTo()
 {
 	// Not quite sure how to approach this
+	if (labelChar.length() > 0)
+	{
+		if (SymbolTable::SymbolTable.length())
+		{
+			// Get the next instruction in the symbol table?
+		}
+		else
+		{
+			cout << "Label [...] does not exist in the file." << endl;
+		}
+	}
+	else
+	{
+		cout << "The goTo method must include a value." << endl;
+	}
+
 }
 
 void CTRL_FLOW::goFalse()

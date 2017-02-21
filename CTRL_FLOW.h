@@ -1,13 +1,13 @@
 #pragma once
 
-class CTR_FLOW
+class CTRL_FLOW
 {
 public:
-	CTR_FLOW();
+	CTRL_FLOW();
 	void getLabel();
 	void goTo();
 	void goFalse();
 	void goTrue();
 	void halt();
-	~CTR_FLOW();
+	~CTRL_FLOW();
 };
