@@ -4,6 +4,7 @@ class CTRL_FLOW
 {
 public:
 	CTRL_FLOW();
+	char labelChar;
 	void getLabel();
 	void goTo();
 	void goFalse();

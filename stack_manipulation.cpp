@@ -1,12 +1,17 @@
 #include "stdafx.h"
 #include "stack_manipulation.h"
 #include "SymbolTable.h"
+#include "operators.h"
 #include <iostream>
 #include <map>
+#include <string>
 
 using namespace std;
 
-stack_manipulation::stack::stack():symbolTableMap() {
+stack_manipulation::stack::stack() {
+	map_vec.push_back(new std::map <std::string, int>);
+	rvalueTable = map_vec[0];
+	lvalueTable = map_vec[0];
 	top = NULL;
 }
 
@@ -69,12 +74,14 @@ bool stack_manipulation::stack::empty()
 void stack_manipulation::stack::rvalue(std::string l) {
 	// pushes contents of data location l onto stack
 	std::map <std::string, int> ::iterator it;
-	it = symbolTableMap.find("a");
-	if (it == symbolTableMap.end())
+	it = (*rvalueTable).find(l);
+	if (it == (*rvalueTable).end())
 	{
-		symbolTableMap.insert(std::pair<std::string, int>("a", 0));
+		(*rvalueTable).insert(std::pair<std::string, int>(l, 0));
 	}
-	push(symbolTableMap["a"]);
+	
+
+	push(std::to_string((*rvalueTable)[l]));
 
 }
 
@@ -82,12 +89,12 @@ void stack_manipulation::stack::lvalue(std::string l) {
 	// pushes address of data location l onto stack
 	// Get line from the input file
 	std::map <std::string, int> ::iterator it;
-	it = symbolTableMap.find("a");
-	if (it == symbolTableMap.end())
+	it = (*lvalueTable).find(l);
+	if (it == (*lvalueTable).end())
 	{
-		symbolTableMap.insert(std::pair<std::string, int>("a", 0));
+		(*lvalueTable).insert(std::pair<std::string, int>(l, 0));
 	}
-	pushVariable("a", &symbolTableMap);
+	pushVariable(l, &(*lvalueTable));
 	//std::string *address = &l;
 	//item *next = new item();
 	//next->p_id = top;
@@ -99,9 +106,33 @@ void stack_manipulation::stack::colonEq() {
 	// stack top is placed by the lvalue below it and both are popped
 	std::string value = pop();
 	std::pair<std::string, std::map<std::string, int> *> variable = popVariable();
-	variable.second[variable.first] = value;	// value from the first pop		// map second to the pair
+	(*variable.second)[variable.first] = stoi(value);	// value from the first pop		// map second to the pair
 }
 
 void stack_manipulation::stack::op(std::string op) {
 	// op gets operator from file
+	// is there a way to use the stack we created within operators?
+}
+
+void stack_manipulation::stack::begin()
+{
+	lvalueTable = new std::map <std::string, int>;
+	map_vec.push_back(lvalueTable);
+}
+
+void stack_manipulation::stack::end()
+{
+	delete rvalueTable;
+	rvalueTable = lvalueTable;
+	map_vec.pop_back();
+}
+
+void stack_manipulation::stack::ret()
+{
+	lvalueTable = map_vec[map_vec.size() - 2];
+}
+
+void stack_manipulation::stack::call()
+{
+	rvalueTable = lvalueTable;
 }

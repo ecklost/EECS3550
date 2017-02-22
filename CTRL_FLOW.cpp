@@ -7,7 +7,7 @@
 
 CTRL_FLOW::CTRL_FLOW()
 {
-	char labelChar;
+	
 }
 
 void CTRL_FLOW::getLabel()
@@ -23,7 +23,7 @@ void CTRL_FLOW::getLabel()
 void CTRL_FLOW::goTo()
 {
 	// Not quite sure how to approach this
-	if (labelChar.length() > 0)
+/*	if (labelChar.length() > 0)
 	{
 		if (SymbolTable::SymbolTable.length())
 		{
@@ -37,7 +37,7 @@ void CTRL_FLOW::goTo()
 	else
 	{
 		cout << "The goTo method must include a value." << endl;
-	}
+	}*/
 
 }
 
