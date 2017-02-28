@@ -216,16 +216,20 @@ void stack_manipulation::stack::assignLabels(std::fstream& inputFile) {
 	int lineNumber = 1;
 	while (!inputFile.eof() && getline(inputFile, singleLine))
 	{
-		std::cout << singleLine << std::endl;
+		//std::cout << singleLine << std::endl;
 		if (!singleLine.find("label") || !singleLine.find(" label") || !singleLine.find("  label")) {
 			while (!singleLine.find(" label") || !singleLine.find("  label")) {
 				singleLine = singleLine.erase(0,1); // remove leading spaces
 			}
+			if (singleLine[singleLine.size() - 1] == '\r') { singleLine = singleLine.substr(0, singleLine.size() - 1); }
+			std::size_t postwo = singleLine.find_last_not_of(" \t");
+			if (std::string::npos != postwo) { singleLine = singleLine.substr(0, postwo + 1); } // for demo.jaz
 			labelTable.insert(std::pair<std::string, int>(singleLine, lineNumber));
 		}
 		singleLine = ""; // Empty line so it's ready for the next one
 		lineNumber++;
 	}
+	inputFile.clear();
 	inputFile.seekg(std::ios::beg); // Start back at beginning
 }
 
