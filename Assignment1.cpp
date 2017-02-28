@@ -40,7 +40,62 @@ int main()
 				std::cout << singleLine.erase(0, 4) << "\n";
 				outputFile << singleLine.erase(0, 4) << "\n";
 			}
-
+			if (singleLine.compare("+"))
+			{
+				stack.op("+");
+			}
+			if (singleLine.compare("-"))
+			{
+				stack.op("-");
+			}
+			if (singleLine.compare("*"))
+			{
+				stack.op("*");
+			}
+			if (singleLine.compare("/"))
+			{
+				stack.op("/");
+			}
+			if (singleLine.compare("div"))
+			{
+				stack.op("div");
+			}
+			if (singleLine.compare("&"))
+			{
+				stack.op("&");
+			}
+			if (singleLine.compare("|"))
+			{
+				stack.op("|");
+			}
+			if (singleLine.compare("!"))
+			{
+				stack.op("!");
+			}
+			if (singleLine.compare("<>"))
+			{
+				stack.op("<>");
+			}
+			if (singleLine.compare("<="))
+			{
+				stack.op("<=");
+			}
+			if (singleLine.compare(">="))
+			{
+				stack.op(">=");
+			}
+			if (singleLine.compare("<"))
+			{
+				stack.op("<");
+			}
+			if (singleLine.compare(">"))
+			{
+				stack.op(">");
+			}
+			if (singleLine.compare("=="))
+			{
+				stack.op("==");
+			}
 			if (singleLine.compare("halt") == 0)
 				break;
 			else
