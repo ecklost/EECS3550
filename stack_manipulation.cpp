@@ -3,6 +3,8 @@
 #include "SymbolTable.h"
 #include "operators.h"
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <map>
 #include <string>
 
@@ -111,7 +113,177 @@ void stack_manipulation::stack::colonEq() {
 
 void stack_manipulation::stack::op(std::string op) {
 	// op gets operator from file
-	// is there a way to use the stack we created within operators?
+	// Since compare returns a 0 if the statement is true, we need to add
+	// in the '!'
+	// arithmetic
+	if (!op.compare("+")) {
+		// +
+		int y = stoi(pop());
+		int x = stoi(pop());
+		stack::push(std::to_string(x + y));
+	}
+	else if (!op.compare("-")) {
+		// -
+		int y = stoi(pop());
+		int x = stoi(pop());
+		x = x - y;
+		stack::push(std::to_string(x));
+	}
+	else if (!op.compare("*")) {
+		// *
+		int y = stoi(pop());
+		int x = stoi(pop());
+		stack::push(std::to_string(x * y));
+	}
+	else if (!op.compare("/")) {
+		// /
+		int y = stoi(pop());
+		int x = stoi(pop());
+		stack::push(std::to_string(x / y));
+	}
+	else if (!op.compare("div")) {
+		// mod
+		int y = stoi(pop());
+		int x = stoi(pop());
+		stack::push(std::to_string(x % y));
+	}
+
+	// logical
+	else if (!op.compare("&")) {
+		// &
+		int y = stoi(pop());
+		int x = stoi(pop());
+		stack::push(std::to_string(x && y));
+	}
+	else if (!op.compare("|")) {
+		// |
+		int y = stoi(pop());
+		int x = stoi(pop());
+		stack::push(std::to_string(x || y));
+	}
+	else if (!op.compare("!")) {
+		// !
+		int x = stoi(pop());
+		stack::push(std::to_string(!x));
+	}
+
+	// relational
+	else if (!op.compare("<>")) {
+		// <> or not equals
+		int y = stoi(pop());
+		int x = stoi(pop());
+		stack::push(std::to_string(x != y));
+	}
+	else if (!op.compare("<=")) {
+		// <=
+		int y = stoi(pop());
+		int x = stoi(pop());
+		stack::push(std::to_string(x <= y));
+	}
+	else if (!op.compare(">=")) {
+		// >=
+		int y = stoi(pop());
+		int x = stoi(pop());
+		stack::push(std::to_string(x >= y));
+	}
+	else if (!op.compare("<")) {
+		// <
+		int y = stoi(pop());
+		int x = stoi(pop());
+		stack::push(std::to_string(x < y));
+	}
+	else if (!op.compare(">")) {
+		// >
+		int y = stoi(pop());
+		int x = stoi(pop());
+		stack::push(std::to_string(x > y));
+	}
+	else if (!op.compare("==")) {
+		// ==
+		int y = stoi(pop());
+		int x = stoi(pop());
+		stack::push(std::to_string(x == y));
+	}
+	else {
+		std::cout << "Invalid operator";
+		exit(1);
+	}
+}
+
+void stack_manipulation::stack::assignLabels(std::fstream& inputFile) {
+	inputFile.seekg(std::ios::beg);
+	std::string singleLine = "";
+	int lineNumber = 1;
+	while (!inputFile.eof() && getline(inputFile, singleLine))
+	{
+		std::cout << singleLine << std::endl;
+		if (!singleLine.find("label") || !singleLine.find(" label") || !singleLine.find("  label")) {
+			while (!singleLine.find(" label") || !singleLine.find("  label")) {
+				singleLine = singleLine.erase(0,1); // remove leading spaces
+			}
+			labelTable.insert(std::pair<std::string, int>(singleLine, lineNumber));
+		}
+		singleLine = ""; // Empty line so it's ready for the next one
+		lineNumber++;
+	}
+	inputFile.seekg(std::ios::beg); // Start back at beginning
+}
+
+int stack_manipulation::stack::getLabel(std::string labelName)
+{
+	// Search labelTable until label is found, then return entry.
+	return labelTable.find("label " + labelName)->second;
+}
+
+std::fstream& stack_manipulation::stack::goTo(std::fstream& inputFile, int lineNumber)
+{
+	inputFile.seekg(std::ios::beg);
+	for (int index = 0; index < (lineNumber - 1); ++index)
+	{
+		inputFile.ignore(256, '\n');
+	}
+	return inputFile;
+}
+
+std::fstream& stack_manipulation::stack::goFalse(std::fstream& inputFile, std::string labelName)
+{
+	if (stack::empty())
+	{
+		cout << "Stack is empty, therefore there is nothing to check" << endl;
+		exit(1);
+	}
+	
+	std::string check = stack::pop();
+
+	if (!check.compare("0"))
+	{
+		// get line number actually
+		goTo(inputFile, getLabel(labelName));
+	}
+
+	return inputFile;
+}
+
+std::fstream& stack_manipulation::stack::goTrue(std::fstream& inputFile, std::string labelName)
+{
+	if (stack::empty())
+	{
+		cout << "Stack is empty, therefore there is nothing to check" << endl;
+		exit(1);
+	}
+
+	std::string check = stack::pop();
+
+	if (!check.compare("1"))
+	{	
+		goTo(inputFile, getLabel(labelName));
+	}
+	return inputFile;
+}
+
+void stack_manipulation::stack::halt()
+{
+	// Handled in main.
 }
 
 void stack_manipulation::stack::begin()

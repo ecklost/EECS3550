@@ -2,14 +2,16 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <vector>
+#include "stack_manipulation.h"
 
 using namespace std;
 
 int main()
 {
-	vector<string> inputFileParameter;
+	std::vector<string> inputFileParameter;
 	
-	readInputFile(inputFileParameter);
+	//readInputFile(inputFileParameter);
 	
 	// Wait for user to press 'Enter' to exit program
 	system("pause");

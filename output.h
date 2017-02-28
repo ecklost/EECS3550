@@ -7,8 +7,8 @@ class output
 {
 public:
 	output();
-	void show(std::ofstream outfile, std::string msg);
-	void print(std::ofstream outfile, stack_manipulation::stack stack);
+	void show(std::fstream outfile, std::string msg);
+	void print(std::fstream outfile, stack_manipulation::stack stack);
 	~output();
 };
 
