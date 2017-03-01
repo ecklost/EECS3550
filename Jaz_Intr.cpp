@@ -1,9 +1,10 @@
-// Assignment1.cpp : Defines the entry point for the console application.
-//
+// This is the main file for the program. Naturally, the code starts here.
+// It will only reference stack_manipulation for the stack. All other code
+// files (not included in the final product) are snippets meant for design
+// purposes. 
 
 #include "stdafx.h"
 #include "stack_manipulation.h"
-#include "output.h"
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -12,15 +13,17 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char *argv[])
 {
+	// Instantiate stack.
 	stack_manipulation::stack stack;
 	std::vector<std::streamoff> callStack;
 	
+	// Additional set-up.
 	string singleLine = "";
-	fstream inputFile("recFact.jaz", ios_base::in | ios_base::binary); // Insert file that you wish to use here.
-	ofstream outputFile("outputFile.out");
-	stack.assignLabels(inputFile);
+	fstream inputFile("foo.jaz", ios_base::in | ios_base::binary); // Insert file that you wish to use here.
+	ofstream outputFile("outputFile.out"); // Output file.
+	stack.assignLabels(inputFile); // Assign labels to a line number.
 
 	cout << "\nThe following is what the input file contains: \n\n";
 
@@ -34,6 +37,7 @@ int main()
 			if (singleLine[singleLine.size() - 1] == '\r') { singleLine = singleLine.substr(0, singleLine.size() - 1); }
 			std::size_t postwo = singleLine.find_last_not_of(" \t");
 			if (std::string::npos != postwo) { singleLine = singleLine.substr(0, postwo + 1); } // for foo.jaz
+			
 			// Interpret line
 			// Output
 			if (singleLine.find("show") == 0) {
@@ -150,8 +154,8 @@ int main()
 			else if (singleLine.find("label") == 0 || !singleLine.compare("")) {
 				// just ignore
 			}
-			else { break; } // halt execution
-			singleLine = ""; // reset
+			else { break; } // halt execution if anything else or 'halt'.
+			singleLine = ""; // reset line
 		}
 		inputFile.close();
 	}
